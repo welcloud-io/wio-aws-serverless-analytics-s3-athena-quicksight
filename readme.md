@@ -9,8 +9,8 @@ For simplicity we assume :
 
 ###### Create Athena result bucket and Workgroup
 
-From [AWS CloudShell](https://eu-west-1.console.aws.amazon.com/cloudshell)
-or your own local terminal, run :
+From <a href="https://eu-west-1.console.aws.amazon.com/cloudshell" target="_blank">AWS CloudShell</a>
+or from your own local terminal configured with iam credentials, run :
 ```
 ACCOUNT_NUMBER=$(aws sts get-caller-identity --query Account --output text)
 
@@ -27,4 +27,4 @@ aws athena start-query-execution --query-string "CREATE DATABASE analytics_datab
 
 ###### Open Athena Query Editor
 
-Open [Athena Query Editor](https://eu-west-1.console.aws.amazon.com/athena/home?region=eu-west-1#/query-editor)
+Open <a href="https://eu-west-1.console.aws.amazon.com/athena/home?region=eu-west-1#/query-editor" target="_blank">Athena Query Editor</a>
