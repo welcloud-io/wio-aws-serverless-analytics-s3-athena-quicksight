@@ -140,7 +140,7 @@ aws s3 cp $output_location -
    "configurationItems":[
       {
          "resourceType":"AWS::EC2::NetworkInterface",
-         "resourceId":"eni-0339h23056c6d31kb",
+         "resourceId":"eni-0000h23056c6d31kb",
           "configuration":{
             "subnetId":"subnet-0b17406654b72e1f7",
             "vpcId":"vpc-0ed8c52ea2ebufda4"
@@ -155,7 +155,7 @@ N.B. Json files in S3 must contain one document per line
 ```
 # Create local data file
 cat << EOF > data.json
-{"configurationItems":[{"resourceType":"AWS::EC2::NetworkInterface","resourceId":"eni-0339h23056c6d31kb","configuration":{"subnetId":"subnet-0b17406654b72e1f7","vpcId":"vpc-0ed8c52ea2ebufda4"}}]}
+{"configurationItems":[{"resourceType":"AWS::EC2::NetworkInterface","resourceId":"eni-0000h23056c6d31kb","configuration":{"subnetId":"subnet-0b17406654b72e1f7","vpcId":"vpc-0000c52ea2ebufda4"}}]}
 EOF
 
 # Create data bucket and upload data file
@@ -276,6 +276,92 @@ SELECT configurationItem.resourcetype, count(*) as count
 FROM config
 CROSS JOIN UNNEST(configurationitems) AS t(configurationItem)
 group by configurationItem.resourcetype
+"""
+)
+
+# Display result
+output_location=$(aws athena get-query-execution --query-execution-id $query_execution_id --query "QueryExecution.ResultConfiguration.OutputLocation" --output text)
+aws s3 cp $output_location -
+```
+
+### Create a view in Athena
+```sql
+aws athena start-query-execution \
+    --work-group "Data_Analyst_Group" \
+    --query-execution-context Database="analytics_database" \
+    --query-string \
+"""
+CREATE OR REPLACE VIEW 
+config_view AS 
+SELECT configurationItem.resourceid, configurationItem.configuration.vpcid 
+FROM config
+CROSS JOIN UNNEST(configurationitems) AS t(configurationItem)
+"""
+```
+
+```sql
+# Execute Query
+query_execution_id=$(
+aws athena start-query-execution \
+    --work-group "Data_Analyst_Group" \
+    --query-execution-context Database="analytics_database" \
+    --query "QueryExecutionId" --output text \
+    --query-string \
+"""
+SELECT * FROM config_view
+"""
+)
+
+# Display result
+output_location=$(aws athena get-query-execution --query-execution-id $query_execution_id --query "QueryExecution.ResultConfiguration.OutputLocation" --output text)
+aws s3 cp $output_location -
+```
+
+### Create a "Join view" in Athena
+```sql
+aws athena start-query-execution \
+    --work-group "Data_Analyst_Group" \
+    --query-execution-context Database="analytics_database" \
+    --query-string \
+"""
+CREATE OR REPLACE VIEW join_view AS 
+SELECT 
+  flowlogs.interfaceid, 
+  config_view.vpcid,
+  flowlogs.numbytes
+FROM flowlogs
+     JOIN config_view ON config_view.resourceId = flowlogs.interfaceid
+"""
+```
+
+```sql
+# Execute Query
+query_execution_id=$(
+aws athena start-query-execution \
+    --work-group "Data_Analyst_Group" \
+    --query-execution-context Database="analytics_database" \
+    --query "QueryExecutionId" --output text \
+    --query-string \
+"""
+SELECT * FROM join_view
+"""
+)
+
+# Display result
+output_location=$(aws athena get-query-execution --query-execution-id $query_execution_id --query "QueryExecution.ResultConfiguration.OutputLocation" --output text)
+aws s3 cp $output_location -
+```
+
+```sql
+# Execute Query
+query_execution_id=$(
+aws athena start-query-execution \
+    --work-group "Data_Analyst_Group" \
+    --query-execution-context Database="analytics_database" \
+    --query "QueryExecutionId" --output text \
+    --query-string \
+"""
+SELECT vpcid, sum(numbytes) as sum_numbytes FROM join_view GROUP BY vpcid
 """
 )
 
