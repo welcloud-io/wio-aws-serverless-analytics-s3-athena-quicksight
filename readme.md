@@ -152,7 +152,7 @@ aws s3 cp $output_location -
 
 N.B. Json files in S3 must contain one document per line
 
-```json
+```
 # Create local data file
 cat << EOF > data.json
 {"configurationItems":[{"resourceType":"AWS::EC2::NetworkInterface","resourceId":"eni-0339h23056c6d31kb","configuration":{"subnetId":"subnet-0b17406654b72e1f7","vpcId":"vpc-0ed8c52ea2ebufda4"}}]}
