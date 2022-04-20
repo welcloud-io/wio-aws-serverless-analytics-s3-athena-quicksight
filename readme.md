@@ -324,7 +324,7 @@ aws athena start-query-execution \
     --query-execution-context Database="analytics_database" \
     --query-string \
 """
-CREATE OR REPLACE VIEW join_view AS 
+CREATE OR REPLACE VIEW flowlogs_config_join_view AS 
 SELECT 
   flowlogs.interfaceid, 
   config_view.vpcid,
@@ -343,7 +343,7 @@ aws athena start-query-execution \
     --query "QueryExecutionId" --output text \
     --query-string \
 """
-SELECT * FROM join_view
+SELECT * FROM flowlogs_config_join_view
 """
 )
 
@@ -361,7 +361,7 @@ aws athena start-query-execution \
     --query "QueryExecutionId" --output text \
     --query-string \
 """
-SELECT vpcid, sum(numbytes) as sum_numbytes FROM join_view GROUP BY vpcid
+SELECT vpcid, sum(numbytes) as sum_numbytes FROM flowlogs_config_join_view GROUP BY vpcid
 """
 )
 
@@ -486,3 +486,6 @@ numpacketsBf&¸<       (           žÊ. &ž
 <REJECTREJECT (REJECTREJECT     ö’6 &Ô5 	logstatusFj&Ô<OKOK (OKOK     ŒÈ& ¸ (Xparquet-mr version 1.11.1-amzn-athena-1 (build e4c8769d72fd0e21068423a0ee114afeaa85df42)ì                             
   PAR1
 ```
+
+##### Clean Up
+
