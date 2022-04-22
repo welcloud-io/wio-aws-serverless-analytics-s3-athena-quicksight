@@ -3,7 +3,7 @@
 ACCOUNT_NUMBER=$(aws sts get-caller-identity --query Account --output text)
 
 # Delete database
-aws athena start-query-execution --query-string "DROP DATABASE analytics_database" --work-group "Data_Analyst_Group"
+aws athena start-query-execution --query-string "DROP DATABASE analytics_database CASCADE" --work-group "Data_Analyst_Group"
 
 # Delete Workgroup
 aws athena delete-work-group --work-group "Data_Analyst_Group" --recursive-delete-option
