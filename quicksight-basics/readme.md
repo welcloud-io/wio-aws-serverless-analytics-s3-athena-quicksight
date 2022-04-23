@@ -1,0 +1,1 @@
+![](images/quicksight-search.png)
