@@ -5,17 +5,6 @@ For simplicity we assume :
 - Your AWS account is a SANDBOX or a DEV account
 - You are working in AWS Ireland Region (eu-west-1)
 
-This tutorial is divided in multiple parts:
-
-[S3/Athena Basic Features](s3-athena-quicksight-basics/readme.md)
-
-[QuickSight Basic Features](s3-athena-quicksight-basics/readme.md)
-
-[S3/Athena Advanced Features](s3-athena-quicksight-basics/readme.md)
-
-[S3/Athena/QuickSight Example Use Cases](s3-athena-quicksight-basics/readme.md)
-
-
 ## Athena Setup
 
 ###### Create Athena result bucket and Workgroup
