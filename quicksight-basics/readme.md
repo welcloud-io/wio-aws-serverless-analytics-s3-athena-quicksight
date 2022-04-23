@@ -1,1 +1,6 @@
-![](images/quicksight-search.png)
+![](images/01-quicksight-search.png)
+![](images/02-quicksight-signup.png)
+![](images/03-quicksight-standard.png)
+![](images/04-quicksight-account-info.png)
+![](images/05-quicksight-congratulations.png)
+![](images/06-quicksight-landing-page.png)
