@@ -9,7 +9,7 @@ This tutorial is divided in multiple parts:
 
 [S3/Athena Basic Features](s3-athena-quicksight-basics/readme.md)
 
-[QuickSight Basic Features](s3-athena-quicksight-basics/readme.md)
+[QuickSight Basic Features](s3-athena-quicksight-basics)
 
 [S3/Athena Advanced Features](s3-athena-quicksight-basics/readme.md)
 
