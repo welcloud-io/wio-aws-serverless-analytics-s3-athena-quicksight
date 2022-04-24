@@ -55,4 +55,4 @@
 
 ### Click on "Save"
 
-![](14-quicksight-s3-bucket-permissions-save.png)
+![](images/14-quicksight-s3-bucket-permissions-save.png)
