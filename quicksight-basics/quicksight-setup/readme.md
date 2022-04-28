@@ -21,7 +21,7 @@
 
 ![](images/04-quicksight-account-info.png)
 
-### Click on "Go to QuickSight"
+### Click on "Go to Amazon QuickSight"
 
 ![](images/05-quicksight-congratulations.png)
 
