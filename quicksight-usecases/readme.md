@@ -20,9 +20,24 @@ config (
       tags:map<string, string>
     >
   > 
+) PARTITIONED BY (
+    p_account string,
+    p_region string,
+    p_date string
 )
 ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
-LOCATION 's3://[S3/Config/Folder]'
+LOCATION 's3://[CONFIG-BUCKET]/'
+TBLPROPERTIES (
+    'projection.enabled' = 'true',
+    'projection.p_account.type' = 'enum',
+    'projection.p_account.values' = '[list-of-aws-accounts]',
+    'projection.p_date.format' = 'yyyy/M/d',
+    'projection.p_date.range' = '2022/01/01,NOW',
+    'projection.p_date.type' = 'date',
+    'projection.p_region.type' = 'enum',
+    'projection.p_region.values' = 'eu-west-1',
+    'storage.location.template' = 's3://[CONFIG-BUCKET/folders]/${p_account}/Config/${p_region}/${p_date}/ConfigSnapshot'
+)
 ```
 
 ###### Config View
@@ -37,6 +52,9 @@ SELECT
 , configurationItem.resourceid
 , configurationItem.configuration.vpcid
 , configurationItem.tags['name'] as name
+, config.p_account
+, config.p_region
+, DATE(date_parse(p_date, '%Y/%m/%d')) as p_date
 FROM
   (config
 CROSS JOIN UNNEST(configurationitems) t (configurationItem))
@@ -219,3 +237,4 @@ WITH  SERDEPROPERTIES (
  'serialization.format' = '1'
 ) LOCATION 's3://[S3/Cost/And/Usage/Report/Folder]'
 ```
+
