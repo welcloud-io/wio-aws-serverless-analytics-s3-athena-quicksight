@@ -108,12 +108,44 @@ recipientaccountid STRING,
 serviceeventdetails STRING,
 sharedeventid STRING,
 vpcendpointid STRING
+) PARTITIONED BY (
+    p_account string,
+    p_region string,
+    p_date string
 )
--- PARTITIONED BY (region string, year string, month string, day string)
 ROW FORMAT SERDE 'com.amazon.emr.hive.serde.CloudTrailSerde'
 STORED AS INPUTFORMAT 'com.amazon.emr.cloudtrail.CloudTrailInputFormat'
 OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
-LOCATION 's3://[S3/CloudTrail/Folder]';
+LOCATION 's3://[CLOUDTRAIL-BUCKET]/'
+TBLPROPERTIES (
+    'projection.enabled' = 'true',
+    'projection.p_account.type' = 'enum',
+    'projection.p_account.values' = '[list-of-aws-accounts]',
+    'projection.p_date.format' = 'yyyy/M/d',
+    'projection.p_date.range' = '2020/01/01,NOW',
+    'projection.p_date.type' = 'date',
+    'projection.p_region.type' = 'enum',
+    'projection.p_region.values' = 'eu-west-1',
+    'storage.location.template' = 's3://[CLOUDTRAIL-BUCKET/folders]/AWSLogs/${p_account}/CloudTrail/${p_region}/${p_date}')
+```
+
+```sql
+CREATE OR REPLACE VIEW cloudtrail_view AS
+SELECT 
+    eventsource, 
+    eventname,
+    eventtime,
+    useridentity.sessioncontext.sessionissuer.arn as userarn,
+    CASE
+    WHEN cast(json_extract(requestparameters, '$.instancesSet.items[0].instanceId') as varchar) != ''
+    THEN cast(json_extract(requestparameters, '$.instancesSet.items[0].instanceId') as varchar)
+    WHEN cast(json_extract(responseelements, '$.instancesSet.items[0].instanceId') as varchar)  != ''
+    THEN cast(json_extract(responseelements, '$.instancesSet.items[0].instanceId') as varchar)
+    END as instanceid,
+	cloudtrail_logs.p_account,
+	cloudtrail_logs.p_region,
+	DATE(date_parse(cloudtrail_logs.p_date, '%Y/%m/%d')) as p_date
+FROM cloudtrail_logs
 ```
 
 #### Cost and usage report
