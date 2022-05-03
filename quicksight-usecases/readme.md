@@ -270,3 +270,45 @@ WITH  SERDEPROPERTIES (
 ) LOCATION 's3://[S3/Cost/And/Usage/Report/Folder]'
 ```
 
+#### Flow Logs
+
+###### Flow Logs table
+
+```sql
+CREATE EXTERNAL TABLE
+flowlogs (
+  version int,
+  account string,
+  interfaceid string,
+  sourceaddress string,
+  destinationaddress string,
+  sourceport string,
+  destinationport string,
+  protocol string,
+  numpackets int,
+  numbytes bigint,
+  starttime int,
+  endtime int,
+  action string,
+  logstatus string 
+) PARTITIONED BY (
+  p_account string, 
+  p_region string, 
+  p_date string
+) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ' ' 
+LOCATION 's3://[FLOWLOGS-BUCKET]/' 
+TBLPROPERTIES
+(
+'skip.header.line.count'='1',
+'projection.enabled' = 'true',
+'projection.p_account.type' = 'enum',
+'projection.p_account.values' = '[list-of-aws-accounts]',
+'projection.p_date.type' = 'date',
+'projection.p_date.range' = '2020/01/01,NOW',
+'projection.p_date.format' = 'yyyy/MM/dd',
+'projection.p_region.type' = 'enum',
+'projection.p_region.values' = 'eu-west-1',
+'storage.location.template' = 's3://[FLOWLOGS-BUCKET/folders]/${p_account}/vpcflowlogs/${p_region}/${p_date}'
+)
+```
