@@ -1,0 +1,55 @@
+```
+# Create local data file
+cat << EOF > moredata.csv
+version account-id interface-id srcaddr dstaddr srcport dstport protocol packets bytes start end action log-status
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.240 50.217.198.149 34144 123 17 1 76000000 1652313600 1652313610 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.240 50.217.198.149 34144 123 17 1 86000000 1652313600 1652313610 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.241 50.217.198.149 34144 123 17 1 96000000 1652313600 1652313610 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.241 50.217.198.140 34144 123 17 1 16000000 1652313600 1652313610 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.242 50.217.198.140 34144 123 17 1 26000000 1652313600 1652313610 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.242 50.217.198.140 34144 123 17 1 36000000 1652313600 1652313610 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.242 50.217.198.140 34144 123 17 1 46000000 1652313600 1652313610 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.240 50.217.198.149 34144 123 17 1 76000000 1652313600 1652313610 REJECT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.240 50.217.198.149 34144 123 17 1 86000000 1652313600 1652313610 REJECT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.241 50.217.198.149 34144 123 17 1 96000000 1652313600 1652313610 REJECT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.241 50.217.198.140 34144 123 17 1 16000000 1652313600 1652313610 REJECT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.242 50.217.198.140 34144 123 17 1 26000000 1652313600 1652313610 REJECT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.242 50.217.198.140 34144 123 17 1 36000000 1652313600 1652313610 REJECT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.242 50.217.198.140 34144 123 17 1 46000000 1652313600 1652313610 REJECT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.240 50.217.198.149 34144 123 17 1 76000000 1652227200 1652227210 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.240 50.217.198.149 34144 123 17 1 86000000 1652227200 1652227210 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.241 50.217.198.149 34144 123 17 1 96000000 1652227200 1652227210 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.241 50.217.198.140 34144 123 17 1 16000000 1652227200 1652227210 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.242 50.217.198.140 34144 123 17 1 26000000 1652227200 1652227210 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.242 50.217.198.140 34144 123 17 1 36000000 1652227200 1652227210 ACCEPT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.242 50.217.198.140 34144 123 17 1 46000000 1652227200 1652227210 ACCEPT OK
+EOF
+
+# Create data bucket and upload data file
+ACCOUNT_NUMBER=$(aws sts get-caller-identity --query Account --output text)
+aws s3 mb s3://serverless-analytics-demo-csv-${ACCOUNT_NUMBER}-eu-west-1 --region eu-west-1
+aws s3 cp moredata.csv s3://serverless-analytics-demo-csv-${ACCOUNT_NUMBER}-eu-west-1
+
+# Remove local data file
+rm moredata.csv
+```
+
+![](images/30-quicksight-moredata.png)
+![](images/31-quicksight-add-filter.png)
+![](images/32-quicksight-add-filter-result.png)
+![](images/33-quicksight-duplicate-visual.png)
+![](images/34-quicksight-create-pie-chart.png)
+![](images/35-quicksight-add-date-filter.png)
+![](images/36-quicksight-add-filter-to-sheet.png)
+![](images/37-quicksight-pin-filter-to-top.png)
+![](images/38-quicksight-select-date-in-filter.png)
+![](images/39-quicksight-create-parameter.png)
+![](images/40-quicksight-create-control.png)
+![](images/41-quicksight-create-control-with-list.png)
+![](images/42-quicksight-parameter-createda.png)
+![](images/43-quicksight-parameter-and-control-created.png)
+![](images/44-quicksight-edit-filter.png)
+![](images/45-quicksight-use-parameter-in-filter.png)
+![](images/50-quicksight-action-new-visual.png)
+![](images/51-quicksight-action-create.png)
+![](images/52-quicksight-action-select.png)
