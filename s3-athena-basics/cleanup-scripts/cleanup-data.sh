@@ -12,6 +12,6 @@ aws s3 rb s3://serverless-analytics-demo-json-${ACCOUNT_NUMBER}-eu-west-1
 aws s3 rm s3://serverless-analytics-demo-parquet-${ACCOUNT_NUMBER}-eu-west-1/ --recursive
 aws s3 rb s3://serverless-analytics-demo-parquet-${ACCOUNT_NUMBER}-eu-west-1
 
-# Remaove datafiles
+# Remove datafiles
 rm data.csv
 rm data.json

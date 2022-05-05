@@ -26,10 +26,6 @@ aws athena create-work-group --name "Data_Analyst_Group" \
 aws athena start-query-execution --query-string "CREATE DATABASE analytics_database" --work-group "Data_Analyst_Group"
 ```
 
-###### Open Athena Query Editor
-
-Open <a href="https://eu-west-1.console.aws.amazon.com/athena/home?region=eu-west-1#/query-editor" target="_blank">Athena Query Editor</a>
-
 ---
 ## Query CSV files with Athena
 
