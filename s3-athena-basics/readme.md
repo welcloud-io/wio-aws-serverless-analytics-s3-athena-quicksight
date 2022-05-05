@@ -5,6 +5,7 @@ For simplicity we assume :
 - Your AWS account is a SANDBOX or a DEV account
 - You are working in AWS Ireland Region (eu-west-1)
 
+---
 ## Athena Setup
 
 ###### Create Athena result bucket and Workgroup
@@ -29,6 +30,7 @@ aws athena start-query-execution --query-string "CREATE DATABASE analytics_datab
 
 Open <a href="https://eu-west-1.console.aws.amazon.com/athena/home?region=eu-west-1#/query-editor" target="_blank">Athena Query Editor</a>
 
+---
 ## Query CSV files with Athena
 
 
@@ -96,7 +98,7 @@ flowlogs (
   logstatus string 
 ) 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ' ' 
-LOCATION 's3://serverless-analytics-demo-${ACCOUNT_NUMBER}-eu-west-1/' 
+LOCATION 's3://serverless-analytics-demo-csv-${ACCOUNT_NUMBER}-eu-west-1/' 
 TBLPROPERTIES
 (
 'skip.header.line.count'='1'
@@ -132,6 +134,7 @@ output_location=$(aws athena get-query-execution --query-execution-id $query_exe
 aws s3 cp $output_location -
 ```
 
+---
 ## Query JSON files with Athena
 
 ##### Json Document Example
@@ -142,8 +145,8 @@ aws s3 cp $output_location -
          "resourceType":"AWS::EC2::NetworkInterface",
          "resourceId":"eni-0000h23056c6d31kb",
           "configuration":{
-            "subnetId":"subnet-0b17406654b72e1f7",
-            "vpcId":"vpc-0ed8c52ea2ebufda4"
+            "subnetId":"subnet-000040665eb72f1f7",
+            "vpcId":"vpc-0000c52ea2ebufda4"
           }       
       }      
    ]
@@ -284,7 +287,8 @@ output_location=$(aws athena get-query-execution --query-execution-id $query_exe
 aws s3 cp $output_location -
 ```
 
-### Create a view in Athena
+---
+## Create a view in Athena
 ```sql
 aws athena start-query-execution \
     --work-group "Data_Analyst_Group" \
@@ -317,7 +321,8 @@ output_location=$(aws athena get-query-execution --query-execution-id $query_exe
 aws s3 cp $output_location -
 ```
 
-### Create a "Join view" in Athena
+---
+## Create a "Join view" in Athena
 ```sql
 aws athena start-query-execution \
     --work-group "Data_Analyst_Group" \
@@ -370,5 +375,40 @@ output_location=$(aws athena get-query-execution --query-execution-id $query_exe
 aws s3 cp $output_location -
 ```
 
-##### Clean Up
+---
+## Clean Up
+
+### Cleanup database
+```
+ACCOUNT_NUMBER=$(aws sts get-caller-identity --query Account --output text)
+
+# Delete database
+aws athena start-query-execution --query-string "DROP DATABASE analytics_database CASCADE" --work-group "Data_Analyst_Group"
+
+# Delete Workgroup
+aws athena delete-work-group --work-group "Data_Analyst_Group" --recursive-delete-option
+
+# Delete result bucket
+aws s3 rm s3://athena-query-results-$ACCOUNT_NUMBER-eu-west-1/ --recursive
+aws s3 rb s3://athena-query-results-$ACCOUNT_NUMBER-eu-west-1
+```
+
+## Cleanup buckets
+```
+ACCOUNT_NUMBER=$(aws sts get-caller-identity --query Account --output text)
+
+# Delete data buckets
+aws s3 rm s3://serverless-analytics-demo-csv-${ACCOUNT_NUMBER}-eu-west-1/ --recursive
+aws s3 rb s3://serverless-analytics-demo-csv-${ACCOUNT_NUMBER}-eu-west-1
+
+aws s3 rm s3://serverless-analytics-demo-json-${ACCOUNT_NUMBER}-eu-west-1/ --recursive
+aws s3 rb s3://serverless-analytics-demo-json-${ACCOUNT_NUMBER}-eu-west-1
+
+aws s3 rm s3://serverless-analytics-demo-parquet-${ACCOUNT_NUMBER}-eu-west-1/ --recursive
+aws s3 rb s3://serverless-analytics-demo-parquet-${ACCOUNT_NUMBER}-eu-west-1
+
+# Remove datafiles
+rm data.csv
+rm data.json
+```
 

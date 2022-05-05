@@ -18,7 +18,7 @@ rm data.csv
 # --------------------------------------------------------------------------------------------------------------------------
 # Create local data file
 cat << EOF > data.json
-{"configurationItems":[{"resourceType":"AWS::EC2::NetworkInterface","resourceId":"eni-0000h23056c6d31kb","configuration":{"subnetId":"subnet-0b17406654b72e1f7","vpcId":"vpc-0000c52ea2ebufda4"}}]}
+{"configurationItems":[{"resourceType":"AWS::EC2::NetworkInterface","resourceId":"eni-0000h23056c6d31kb","configuration":{"subnetId":"subnet-000040665eb72f1f7","vpcId":"vpc-0000c52ea2ebufda4"}}]}
 EOF
 
 # Create data bucket and upload data file
