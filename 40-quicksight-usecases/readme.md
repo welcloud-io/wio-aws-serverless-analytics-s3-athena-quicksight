@@ -1,6 +1,9 @@
-## Use Case Athena Setup
+# Use Cases 
 
-#### Config
+## Use Cases Athena Tables
+
+---
+### Config Table & View
 
 ###### Config Table
 ```sql
@@ -36,14 +39,14 @@ TBLPROPERTIES (
     'projection.p_date.type' = 'date',
     'projection.p_region.type' = 'enum',
     'projection.p_region.values' = 'eu-west-1',
-    'storage.location.template' = 's3://[CONFIG-BUCKET/folders]/${p_account}/Config/${p_region}/${p_date}/ConfigSnapshot'
+    'storage.location.template' = 's3://[CONFIG_BUCKET][/SUBFOLDERS]/${p_account}/Config/${p_region}/${p_date}/ConfigSnapshot'
 )
 ```
 
 ###### Config View
 
 ```sql
-CREATE OR REPLACE VIEW "config_view" AS 
+CREATE OR REPLACE VIEW config_view AS 
 SELECT
   configurationItem.configurationItemCaptureTime
 , configurationItem.resourceCreationTime
@@ -59,12 +62,13 @@ FROM
   (config
 CROSS JOIN UNNEST(configurationitems) t (configurationItem))
 ```
-#### Cloudtrail
+---
+### Cloudtrail Table & View
 
 ###### Cloudtrail Table
 
 ```sql
-CREATE EXTERNAL TABLE cloudtrail_logs (
+CREATE EXTERNAL TABLE cloudtrail (
 eventversion STRING,
 useridentity STRUCT<
                type:STRING,
@@ -121,12 +125,12 @@ TBLPROPERTIES (
     'projection.enabled' = 'true',
     'projection.p_account.type' = 'enum',
     'projection.p_account.values' = '[list-of-aws-accounts]',
-    'projection.p_date.format' = 'yyyy/M/d',
-    'projection.p_date.range' = '2020/01/01,NOW',
+    'projection.p_date.format' = 'yyyy/MM/dd',
+    'projection.p_date.range' = '2022/01/01,NOW',
     'projection.p_date.type' = 'date',
     'projection.p_region.type' = 'enum',
     'projection.p_region.values' = 'eu-west-1',
-    'storage.location.template' = 's3://[CLOUDTRAIL-BUCKET/folders]/AWSLogs/${p_account}/CloudTrail/${p_region}/${p_date}')
+    'storage.location.template' = 's3://[CLOUDTRAIL_BUCKET][/SUBFOLDERS]/AWSLogs/${p_account}/CloudTrail/${p_region}/${p_date}')
 ```
 
 ```sql
@@ -145,16 +149,15 @@ SELECT
 	cloudtrail_logs.p_account,
 	cloudtrail_logs.p_region,
 	DATE(date_parse(cloudtrail_logs.p_date, '%Y/%m/%d')) as p_date
-FROM cloudtrail_logs
+FROM cloudtrail
 ```
-
-#### Cost and usage report
+---
+### Cost and usage report Table and View
 
 ###### Cost and usage report table
 
 ```sql
-
-CREATE EXTERNAL TABLE hourly-report.hourly_report(
+CREATE EXTERNAL TABLE cost (
 	identity_line_item_id STRING,
 	identity_time_interval STRING,
 	bill_invoice_id STRING,
@@ -257,20 +260,27 @@ CREATE EXTERNAL TABLE hourly-report.hourly_report(
 	savings_plan_savings_plan_effective_cost DOUBLE,
 	savings_plan_amortized_upfront_commitment_for_billing_period DOUBLE,
 	savings_plan_recurring_commitment_for_billing_period DOUBLE
-)
-
-PARTITIONED BY (
+) PARTITIONED BY (
 	year STRING,
 	month STRING
 )
-         
 ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
 WITH  SERDEPROPERTIES (
  'serialization.format' = '1'
-) LOCATION 's3://[S3/Cost/And/Usage/Report/Folder]'
+) 
+LOCATION 's3://[COST_AND_USAGE_BUCKET][/SUBFOLDERS]'
 ```
 
-#### Flow Logs
+###### Cost and usage report view
+
+```sql
+CREATE OR REPLACE VIEW cost_view AS
+SELECT
+FROM cost
+```
+
+---
+#### Flow Logs Table and View
 
 ###### Flow Logs table
 
@@ -305,10 +315,10 @@ TBLPROPERTIES
 'projection.p_account.type' = 'enum',
 'projection.p_account.values' = '[list-of-aws-accounts]',
 'projection.p_date.type' = 'date',
-'projection.p_date.range' = '2020/01/01,NOW',
+'projection.p_date.range' = '2022/01/01,NOW',
 'projection.p_date.format' = 'yyyy/MM/dd',
 'projection.p_region.type' = 'enum',
 'projection.p_region.values' = 'eu-west-1',
-'storage.location.template' = 's3://[FLOWLOGS-BUCKET/folders]/${p_account}/vpcflowlogs/${p_region}/${p_date}'
+'storage.location.template' = 's3://[FLOWLOGS-BUCKET][/SUBFOLDERS]/${p_account}/vpcflowlogs/${p_region}/${p_date}'
 )
 ```
