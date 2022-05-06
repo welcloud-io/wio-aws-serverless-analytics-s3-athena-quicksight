@@ -130,9 +130,13 @@ aws athena start-query-execution \
 """
 CREATE OR REPLACE VIEW flowlogs_config_join_view AS 
 SELECT 
+  flowlogs.action,
+  flowlogs.sourceaddress,
+  flowlogs.destinationaddress,
   flowlogs.interfaceid, 
-  config_view.vpcid,
-  flowlogs.numbytes
+  flowlogs.numbytes,
+  from_unixtime(flowlogs.starttime) as startdatetime,
+  config_view.vpcid
 FROM flowlogs
      JOIN config_view ON config_view.resourceId = flowlogs.interfaceid
 """

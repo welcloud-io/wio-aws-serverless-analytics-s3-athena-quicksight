@@ -33,13 +33,13 @@ LOCATION 's3://[CONFIG-BUCKET]/'
 TBLPROPERTIES (
     'projection.enabled' = 'true',
     'projection.p_account.type' = 'enum',
-    'projection.p_account.values' = '[list-of-aws-accounts]',
+    'projection.p_account.values' = '[LIST_OF_ACCOUNTS]',
     'projection.p_date.format' = 'yyyy/M/d',
     'projection.p_date.range' = '2022/01/01,NOW',
     'projection.p_date.type' = 'date',
     'projection.p_region.type' = 'enum',
     'projection.p_region.values' = 'eu-west-1',
-    'storage.location.template' = 's3://[CONFIG_BUCKET][/SUBFOLDERS]/${p_account}/Config/${p_region}/${p_date}/ConfigSnapshot'
+    'storage.location.template' = 's3://[CONFIG_BUCKET][/SUBFOLDERS]/AWSLogs/${p_account}/Config/${p_region}/${p_date}/ConfigSnapshot'
 )
 ```
 
@@ -124,13 +124,14 @@ LOCATION 's3://[CLOUDTRAIL-BUCKET]/'
 TBLPROPERTIES (
     'projection.enabled' = 'true',
     'projection.p_account.type' = 'enum',
-    'projection.p_account.values' = '[list-of-aws-accounts]',
+    'projection.p_account.values' = '[LIST_OF_ACCOUNTS]',
     'projection.p_date.format' = 'yyyy/MM/dd',
     'projection.p_date.range' = '2022/01/01,NOW',
     'projection.p_date.type' = 'date',
     'projection.p_region.type' = 'enum',
     'projection.p_region.values' = 'eu-west-1',
-    'storage.location.template' = 's3://[CLOUDTRAIL_BUCKET][/SUBFOLDERS]/AWSLogs/${p_account}/CloudTrail/${p_region}/${p_date}')
+    'storage.location.template' = 's3://[CLOUDTRAIL_BUCKET][/SUBFOLDERS]/AWSLogs/${p_account}/CloudTrail/${p_region}/${p_date}'
+)
 ```
 
 ```sql
@@ -146,9 +147,9 @@ SELECT
     WHEN cast(json_extract(responseelements, '$.instancesSet.items[0].instanceId') as varchar)  != ''
     THEN cast(json_extract(responseelements, '$.instancesSet.items[0].instanceId') as varchar)
     END as instanceid,
-	cloudtrail_logs.p_account,
-	cloudtrail_logs.p_region,
-	DATE(date_parse(cloudtrail_logs.p_date, '%Y/%m/%d')) as p_date
+    p_account,
+    p_region,
+    DATE(date_parse(p_date, '%Y/%m/%d')) as p_date
 FROM cloudtrail
 ```
 ---
@@ -313,7 +314,7 @@ TBLPROPERTIES
 'skip.header.line.count'='1',
 'projection.enabled' = 'true',
 'projection.p_account.type' = 'enum',
-'projection.p_account.values' = '[list-of-aws-accounts]',
+'projection.p_account.values' = '[LIST_OF_ACCOUNTS]',
 'projection.p_date.type' = 'date',
 'projection.p_date.range' = '2022/01/01,NOW',
 'projection.p_date.format' = 'yyyy/MM/dd',

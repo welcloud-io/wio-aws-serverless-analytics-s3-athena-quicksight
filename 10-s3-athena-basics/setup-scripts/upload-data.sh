@@ -4,7 +4,7 @@
 # Create local data file
 cat << EOF > data.csv
 version account-id interface-id srcaddr dstaddr srcport dstport protocol packets bytes start end action log-status
-2 000111222333 eni-0000h23056c6d31kb 10.0.0.240 50.219.198.149 34144 123 17 1 76000000 1601909882 1601909919 REJECT OK
+2 000111222333 eni-0000h23056c6d31kb 10.0.0.240 50.217.198.149 34144 123 17 1 76000000 1652313600 1652313610 ACCEPT OK
 EOF
 
 # Create data bucket and upload data file
