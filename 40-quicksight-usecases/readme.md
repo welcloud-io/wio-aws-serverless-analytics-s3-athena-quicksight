@@ -312,7 +312,7 @@ SELECT
 	line_item_line_item_description,
 	line_item_tax_type,
 	line_item_legal_entity,
-	line_item_resource_id as resourceid
+	line_item_resource_id as resourceid --used by quicksight actions in combo sheet
 FROM cost
 ```
 
