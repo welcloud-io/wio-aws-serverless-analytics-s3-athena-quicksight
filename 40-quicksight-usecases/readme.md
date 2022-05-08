@@ -146,7 +146,7 @@ SELECT
     THEN cast(json_extract(requestparameters, '$.instancesSet.items[0].instanceId') as varchar)
     WHEN cast(json_extract(responseelements, '$.instancesSet.items[0].instanceId') as varchar)  != ''
     THEN cast(json_extract(responseelements, '$.instancesSet.items[0].instanceId') as varchar)
-    END as instanceid,
+    END as resourceid,
     p_account,
     p_region,
     DATE(date_parse(p_date, '%Y/%m/%d')) as p_date
@@ -270,6 +270,14 @@ WITH  SERDEPROPERTIES (
  'serialization.format' = '1'
 ) 
 LOCATION 's3://[COST_AND_USAGE_BUCKET][/SUBFOLDERS]'
+TBLPROPERTIES (
+  'projection.enabled'='true',
+  'projection.month.range'='1,12',
+  'projection.month.type'='integer',
+  'projection.year.range'='2000,2050',
+  'projection.year.type'='integer',
+  'storage.location.template'='s3://[COST_AND_USAGE_BUCKET][/SUBFOLDERS]/year=${year}/month=${month}'
+)
 ```
 
 ###### Cost and usage report view
@@ -277,11 +285,39 @@ LOCATION 's3://[COST_AND_USAGE_BUCKET][/SUBFOLDERS]'
 ```sql
 CREATE OR REPLACE VIEW cost_view AS
 SELECT
+	bill_invoice_id,
+	bill_invoicing_entity,
+	bill_billing_entity,
+	bill_bill_type,
+	bill_payer_account_id,
+	bill_billing_period_start_date,
+	bill_billing_period_end_date,
+	line_item_usage_account_id,
+	line_item_line_item_type,
+	line_item_usage_start_date,
+	line_item_usage_end_date,
+	line_item_product_code,
+	line_item_usage_type,
+	line_item_operation,
+	line_item_availability_zone,
+	line_item_resource_id,
+	line_item_usage_amount,
+	line_item_normalization_factor,
+	line_item_normalized_usage_amount,
+	line_item_currency_code,
+	line_item_unblended_rate,
+	line_item_unblended_cost,
+	line_item_blended_rate,
+	line_item_blended_cost,
+	line_item_line_item_description,
+	line_item_tax_type,
+	line_item_legal_entity,
+	line_item_resource_id as resourceid
 FROM cost
 ```
 
 ---
-#### Flow Logs Table and View
+#### Flow Logs Table
 
 ###### Flow Logs table
 
