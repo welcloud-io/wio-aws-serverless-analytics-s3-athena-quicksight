@@ -43,6 +43,8 @@ TBLPROPERTIES (
 )
 ```
 
+
+
 ###### Config View
 
 ```sql
@@ -62,6 +64,10 @@ FROM
   (config
 CROSS JOIN UNNEST(configurationitems) t (configurationItem))
 ```
+
+![](images/quicksight-usecase-config.png)
+
+
 ---
 ### Cloudtrail Table & View
 
@@ -152,6 +158,8 @@ SELECT
     DATE(date_parse(p_date, '%Y/%m/%d')) as p_date
 FROM cloudtrail
 ```
+![](images/quicksight-usecase-cloudtrail.png)
+
 ---
 ### Cost and usage report Table and View
 
@@ -280,11 +288,15 @@ TBLPROPERTIES (
 )
 ```
 
+![](images/quicksight-usecase-cost.png)
+
 ###### Cost and usage report view
 
 ```sql
 CREATE OR REPLACE VIEW cost_view AS
 SELECT
+	identity_line_item_id,
+	identity_time_interval,
 	bill_invoice_id,
 	bill_invoicing_entity,
 	bill_billing_entity,
@@ -359,3 +371,5 @@ TBLPROPERTIES
 'storage.location.template' = 's3://[FLOWLOGS-BUCKET][/SUBFOLDERS]/${p_account}/vpcflowlogs/${p_region}/${p_date}'
 )
 ```
+
+![](images/quicksight-usecase-flowlogs.png)
