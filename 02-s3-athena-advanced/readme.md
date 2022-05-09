@@ -1,10 +1,42 @@
 ### Create Athena Table Partitions
 
-... to be completed
+There are 3 ways to create partitions with athena:
 
-### Convert date format
+- Add a partition manually
 
-... to be completed
+```sql
+ALTER TABLE [Table] ADD PARTITION (date='2015-01-01') location 's3://[BUCKET][/SUBFOLDERS]'
+```
+
+- Project a partition in the table declaration
+
+```sql
+CREATE EXTERNAL TABLE
+[Table]
+...
+) PARTITIONED BY (
+    p_account string,
+    p_region string,
+    p_date string
+)
+...
+LOCATION 's3://[CONFIG-BUCKET]/'
+TBLPROPERTIES (
+    'projection.enabled' = 'true',
+    'projection.p_account.type' = 'enum',
+    'projection.p_account.values' = '[LIST_OF_ACCOUNTS]',
+    'projection.p_date.format' = 'yyyy/M/d',
+    'projection.p_date.range' = '2022/01/01,NOW',
+    'projection.p_date.type' = 'date',
+    'projection.p_region.type' = 'enum',
+    'projection.p_region.values' = 'eu-west-1',
+    'storage.location.template' = 's3://[CONFIG_BUCKET][/SUBFOLDERS]/AWSLogs/${p_account}/Config/${p_region}/${p_date}/ConfigSnapshot'
+)
+```
+
+- Have buckets with folder names in a specific format (Hive format)
+
+More details [here](https://docs.aws.amazon.com/athena/latest/ug/partitions.html)
 
 ### Unload table and convert data format
 
