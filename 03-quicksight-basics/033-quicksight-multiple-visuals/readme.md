@@ -1,3 +1,6 @@
+From <a href="https://eu-west-1.console.aws.amazon.com/cloudshell" target="_blank">AWS CloudShell</a>
+or from your own local terminal configured with iam credentials, run :
+
 ```
 # Create local data file
 cat << EOF > moredata.csv
@@ -34,22 +37,59 @@ aws s3 cp moredata.csv s3://serverless-analytics-demo-csv-${ACCOUNT_NUMBER}-eu-w
 rm moredata.csv
 ```
 
+- #### Refresh quicksight with new data
 ![](images/30-quicksight-moredata.png)
+
+- #### Filter on 'ACCEPT' (Use Focus Only on ... menu)
 ![](images/31-quicksight-add-filter.png)
+
+- #### Select filter menu in Quicksight
 ![](images/32-quicksight-add-filter-result.png)
+
+- #### Duplicat Visual
 ![](images/33-quicksight-duplicate-visual.png)
+
+- #### Choose a pie chart and select the right fields
 ![](images/34-quicksight-create-pie-chart.png)
+
+- #### Filter on date
 ![](images/35-quicksight-add-date-filter.png)
+
+- #### Add filter to sheet
 ![](images/36-quicksight-add-filter-to-sheet.png)
+
+- #### Add filter as control (pin to top)
 ![](images/37-quicksight-pin-filter-to-top.png)
+
+- #### Select a date range
 ![](images/38-quicksight-select-date-in-filter.png)
+
+- #### Create a parameter
 ![](images/39-quicksight-create-parameter.png)
+
+- #### Make parameter as control
 ![](images/40-quicksight-create-control.png)
+
+- #### Select the content of the control
 ![](images/41-quicksight-create-control-with-list.png)
+
+- #### Display control dop down list
 ![](images/42-quicksight-parameter-createda.png)
+
+- #### Edit Filter
 ![](images/43-quicksight-parameter-and-control-created.png)
+
+- #### Edit Filter
 ![](images/44-quicksight-edit-filter.png)
+
+- #### Use parameter in filter
 ![](images/45-quicksight-use-parameter-in-filter.png)
+
+- #### Create new visual
 ![](images/50-quicksight-action-new-visual.png)
+
+- #### Create action
 ![](images/51-quicksight-action-create.png)
+
+- #### Test Action
 ![](images/52-quicksight-action-select.png)
