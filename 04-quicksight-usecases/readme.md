@@ -64,6 +64,7 @@ FROM
   (config
 CROSS JOIN UNNEST(configurationitems) t (configurationItem))
 ```
+###### QuickSight Use Case Example
 
 ![](images/quicksight-usecase-config.png)
 
@@ -158,6 +159,8 @@ SELECT
     DATE(date_parse(p_date, '%Y/%m/%d')) as p_date
 FROM cloudtrail
 ```
+
+###### QuickSight Use Case Example
 ![](images/quicksight-usecase-cloudtrail.png)
 
 ---
@@ -288,6 +291,7 @@ TBLPROPERTIES (
 )
 ```
 
+###### QuickSight Use Case Example
 ![](images/quicksight-usecase-cost.png)
 
 ###### Cost and usage report view
@@ -372,4 +376,5 @@ TBLPROPERTIES
 )
 ```
 
+###### QuickSight Use Case Example
 ![](images/quicksight-usecase-flowlogs.png)
