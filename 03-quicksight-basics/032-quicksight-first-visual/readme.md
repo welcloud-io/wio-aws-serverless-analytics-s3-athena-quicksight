@@ -8,11 +8,11 @@
 
 ![](images/21-quicksight-datasoure-from-athena.png)
 
-- #### Choose athena workgroup for the datasource
+- #### Choose athena workgroup for the datasource and click "Create data source"
 
 ![](images/22-quicksight-datasoure-parameters.png)
 
-- #### Choose an athena table or an athena view
+- #### Choose an athena table or an athena view the click "Select"
 
 ![](images/23-quicksight-datasoure-first-dataset.png)
 
