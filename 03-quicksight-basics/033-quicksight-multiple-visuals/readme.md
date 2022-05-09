@@ -50,12 +50,6 @@ rm moredata.csv
 - #### Select filter menu in Quicksight
 ![](images/32-quicksight-add-filter-result.png)
 
-- #### Duplicate Visual
-![](images/33-quicksight-duplicate-visual.png)
-
-- #### Choose a pie chart and select the right fields
-![](images/34-quicksight-create-pie-chart.png)
-
 - #### Filter on date
 ![](images/35-quicksight-add-date-filter.png)
 
@@ -80,9 +74,6 @@ rm moredata.csv
 ![](images/41-quicksight-create-control-with-list.png)
 
 - #### Display control dop down list
-![](images/42-quicksight-parameter-created.png)
-
-- #### Edit Filter
 ![](images/43-quicksight-parameter-and-control-created.png)
 
 - #### Edit Filter
@@ -92,6 +83,12 @@ rm moredata.csv
 ![](images/45-quicksight-use-parameter-in-filter.png)
 
 ## Use actions
+
+- #### Duplicate Visual
+![](images/33-quicksight-duplicate-visual.png)
+
+- #### Choose a pie chart and select the right fields
+![](images/34-quicksight-create-pie-chart.png)
 
 - #### Create new visual
 ![](images/50-quicksight-action-new-visual.png)
