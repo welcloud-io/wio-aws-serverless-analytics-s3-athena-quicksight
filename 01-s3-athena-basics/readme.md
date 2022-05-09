@@ -6,6 +6,23 @@ For simplicity we assume :
 - You are working in AWS Ireland Region (eu-west-1)
 
 ---
+
+You can either run the ```setup.sh``` script ... 
+
+From <a href="https://eu-west-1.console.aws.amazon.com/cloudshell" target="_blank">AWS CloudShell</a>
+or from your own local terminal configured with iam credentials, run :
+```
+# Clone repo
+git clone https://github.com/welcloud-io/wio-aws-serverless-analytics-s3-athena-quicksight.git
+
+# Run Global Setup
+cd wio-aws-serverless-analytics-s3-athena-quicksight/01-s3-athena-basics
+./setup.sh
+```
+
+...OR run the steps one by one below :
+
+---
 ## Athena Setup
 
 ###### Create Athena result bucket and Workgroup
