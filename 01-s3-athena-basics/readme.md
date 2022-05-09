@@ -395,6 +395,19 @@ aws s3 cp $output_location -
 ---
 ## Clean Up
 
+You can either run the ```cleanup.sh``` script ... 
+
+From <a href="https://eu-west-1.console.aws.amazon.com/cloudshell" target="_blank">AWS CloudShell</a>
+or from your own local terminal configured with iam credentials, run :
+```
+# Run Clean Up
+cd wio-aws-serverless-analytics-s3-athena-quicksight/01-s3-athena-basics
+./cleanup.sh
+```
+
+---
+...OR run the steps one by one below :
+
 ### Cleanup database
 ```
 ACCOUNT_NUMBER=$(aws sts get-caller-identity --query Account --output text)
@@ -410,7 +423,8 @@ aws s3 rm s3://athena-query-results-$ACCOUNT_NUMBER-eu-west-1/ --recursive
 aws s3 rb s3://athena-query-results-$ACCOUNT_NUMBER-eu-west-1
 ```
 
-## Cleanup buckets
+### Cleanup data
+
 ```
 ACCOUNT_NUMBER=$(aws sts get-caller-identity --query Account --output text)
 
