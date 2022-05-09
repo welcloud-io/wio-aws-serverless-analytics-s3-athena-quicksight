@@ -33,8 +33,6 @@
 
 # QuickSight S3 Permissions Setup
 
-- #### Access QuickSight management 
-
 - #### Click on "Manage QuickSight" (Top Right Menu)
 
 ![](images/10-quicksight-manage.png)
