@@ -1,3 +1,5 @@
+## Upload more data on s3
+
 From <a href="https://eu-west-1.console.aws.amazon.com/cloudshell" target="_blank">AWS CloudShell</a>
 or from your own local terminal configured with iam credentials, run :
 
@@ -40,13 +42,15 @@ rm moredata.csv
 - #### Refresh quicksight with new data
 ![](images/30-quicksight-moredata.png)
 
-- #### Filter on 'ACCEPT' (Use Focus Only on ... menu)
+## Use filters
+
+- #### Filter on 'ACCEPT' (Use 'Focus Only on ...' menu)
 ![](images/31-quicksight-add-filter.png)
 
 - #### Select filter menu in Quicksight
 ![](images/32-quicksight-add-filter-result.png)
 
-- #### Duplicat Visual
+- #### Duplicate Visual
 ![](images/33-quicksight-duplicate-visual.png)
 
 - #### Choose a pie chart and select the right fields
@@ -64,6 +68,8 @@ rm moredata.csv
 - #### Select a date range
 ![](images/38-quicksight-select-date-in-filter.png)
 
+## Use parameters
+
 - #### Create a parameter
 ![](images/39-quicksight-create-parameter.png)
 
@@ -74,7 +80,7 @@ rm moredata.csv
 ![](images/41-quicksight-create-control-with-list.png)
 
 - #### Display control dop down list
-![](images/42-quicksight-parameter-createda.png)
+![](images/42-quicksight-parameter-created.png)
 
 - #### Edit Filter
 ![](images/43-quicksight-parameter-and-control-created.png)
@@ -84,6 +90,8 @@ rm moredata.csv
 
 - #### Use parameter in filter
 ![](images/45-quicksight-use-parameter-in-filter.png)
+
+## Use actions
 
 - #### Create new visual
 ![](images/50-quicksight-action-new-visual.png)
