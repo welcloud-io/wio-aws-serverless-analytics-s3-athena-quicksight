@@ -1,7 +1,8 @@
 # Serverless Analytics with S3, Athena & QuickSight
 
 ---
-This tutorial will guide you through serverless analytics principles using S3, Athena & QuickSight
+These tutorials will guide you through serverless analytics principles using 
+Amazon S3, Amazon Athena & Amazon QuickSight
 
 #### [S3/Athena Basics](s3-athena-basics/)
 
