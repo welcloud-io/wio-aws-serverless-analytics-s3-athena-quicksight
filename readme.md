@@ -1,12 +1,7 @@
 # Serverless Analytics with S3, Athena & QuickSight
 
-For simplicity we assume :
-- You are currently logged in an AWS account with an IAM ADMIN user or role
-- Your AWS account is a SANDBOX or a DEV account
-- You are working in AWS Ireland Region (eu-west-1)
-
 ---
-This tutorial is divided into multiple parts:
+This tutorial will guide you through serverless analytics principles using S3, Athena & QuickSight
 
 #### [S3/Athena Basics](s3-athena-basics/)
 
